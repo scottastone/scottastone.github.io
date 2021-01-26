@@ -17,6 +17,7 @@ title: Scott Stone
 email: sastone@ualberta.ca    
 description: >- # this means to ignore newlines until "baseurl:"
   Filler for now.
+  
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: scottastone

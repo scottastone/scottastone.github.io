@@ -1,10 +1,14 @@
 ---
 layout: page
 title: About
-permalink: /about/
+permalink: /
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+Hey there.
+
+I’m a PhD candidate in the department of psychology at the University of Alberta, supervised by Craig Chapman and Anthony Singhal.
+
+I am interested in multimodal data collection, particularly eyetracking and motion capture. I also dabble in reinforcement learning and EEG.
 
 You can find the source code for Minima at GitHub:
 [jekyll][jekyll-organization] /

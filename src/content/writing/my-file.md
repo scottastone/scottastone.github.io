@@ -10,6 +10,3 @@ def main():
 ```
 
 Testing out some **stuff** here _and seeing if it works._
-
-
-[Paper Crown.mp3](https://github.com/user-attachments/files/33404908/Paper.Crown.mp3)

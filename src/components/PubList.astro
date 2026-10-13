@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  pubs: CollectionEntry<"publications">[];
+  showYear?: boolean;
+}
+const { pubs, showYear = true } = Astro.props;
+---
+
+<ol class="pubs">
+  {pubs.map(({ data: p }) => (
+    <li class="pub">
+      {showYear && <span class="pub-year">{p.year}</span>}
+      <div class="pub-body">
+        <a class="pub-title" href={p.url ?? p.pdf} target="_blank" rel="noopener">
+          {p.title}
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+        {p.authors && <p class="pub-authors">{p.authors}</p>}
+        <p class="pub-meta">
+          <span class="pub-venue">{p.venue}</span>
+          {p.tags.map((t) => <span class="tag">{t}</span>)}
+          {p.pdf && p.url && <a class="tag tag-link" href={p.pdf}>PDF</a>}
+        </p>
+      </div>
+    </li>
+  ))}
+</ol>

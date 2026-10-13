@@ -1,0 +1,112 @@
+---
+import Base from "../layouts/Base.astro";
+import PubList from "../components/PubList.astro";
+import PostList from "../components/PostList.astro";
+import { profile, getPublications, getPosts } from "../lib/data";
+
+const pubs = await getPublications();
+const featured = pubs.filter((p) => p.data.featured);
+const selected = (featured.length ? featured : pubs).slice(0, 4);
+const posts = (await getPosts()).slice(0, 3);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  honorificSuffix: profile.credentials,
+  jobTitle: profile.title,
+  worksFor: profile.role ? { "@type": "Organization", name: profile.role } : undefined,
+  email: `mailto:${profile.email}`,
+  url: Astro.site?.href,
+  address: profile.location,
+  sameAs: profile.links.map((l) => l.url),
+  alumniOf: [...new Set(profile.education.map((e) => e.school))],
+};
+---
+
+<Base>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+  <section class="hero">
+    <p class="eyebrow">{profile.location}</p>
+    <h1>{profile.name}{profile.credentials && <span class="cred">, {profile.credentials}</span>}</h1>
+    <p class="hero-role">
+      {profile.title}{profile.role && <> at <strong>{profile.role}</strong></>}
+    </p>
+    <p class="hero-tagline">{profile.tagline}</p>
+    <div class="actions">
+      <a class="btn btn-primary" href={`mailto:${profile.email}`}>Get in touch</a>
+      {profile.documents.map((d) => <a class="btn" href={d.url} target="_blank" rel="noopener">{d.label}</a>)}
+      {profile.links.map((l) => <a class="btn btn-ghost" href={l.url} target="_blank" rel="me noopener">{l.label} ↗</a>)}
+    </div>
+  </section>
+
+  {profile.about && (
+    <section class="section">
+      <h2 class="section-label">About</h2>
+      <div class="prose about">
+        {profile.about.split(/\n\s*\n/).map((para) => <p>{para}</p>)}
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <h2 class="section-label">What I do</h2>
+    <div class="focus-grid">
+      {profile.focus.map((f) => (
+        <article class="card">
+          <h3>{f.title}</h3>
+          <p>{f.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-label">Research publications</h2>
+      <a class="more" href="/publications/">All {pubs.length} →</a>
+    </div>
+    <PubList pubs={selected} />
+  </section>
+
+  {posts.length > 0 && (
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-label">Writing</h2>
+        <a class="more" href="/writing/">All posts →</a>
+      </div>
+      <PostList posts={posts} />
+    </section>
+  )}
+
+  <section class="section">
+    <h2 class="section-label">Background</h2>
+    <div class="bg-grid">
+      {profile.experience && (
+        <div>
+          <h3 class="mini">Experience</h3>
+          <ul class="edu">
+            {profile.experience.map((x) => (
+              <li class={x.current ? "current" : undefined}><span>{x.role}</span><span class="muted">{x.org}</span></li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div>
+        <h3 class="mini">Education</h3>
+        <ul class="edu">
+          {profile.education.map((e) => (
+            <li><span>{e.degree}</span><span class="muted">{e.school}</span></li>
+          ))}
+        </ul>
+      </div>
+      {profile.skills.map((s) => (
+        <div>
+          <h3 class="mini">{s.category}</h3>
+          <p class="chips">{s.items.map((i) => <span class="tag">{i}</span>)}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

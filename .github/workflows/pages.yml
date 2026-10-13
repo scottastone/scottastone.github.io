@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy redirects to GitHub Pages
 
 on:
   push:
@@ -25,6 +25,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      # scottstone.ca is the real site; github.io just forwards there
+      - run: node scripts/make-redirects.mjs dist
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

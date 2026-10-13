@@ -52,9 +52,9 @@ Updating later: push to `main`. `.github/workflows/deploy.yml` SSHes in and runs
 
 Caching: `/_astro/*` files have content hashes in their names and are cached for a year; everything else (pages, PDFs, images) is revalidated on each visit, so edits show up immediately.
 
-## GitHub Pages
+## GitHub Pages (redirect)
 
-`.github/workflows/pages.yml` also publishes the site to https://scottastone.github.io on every push to `main`. One-time setup: repo Settings > Pages > Source: **GitHub Actions**. Canonical links point at scottstone.ca, so search engines treat that as the main copy.
+`.github/workflows/pages.yml` publishes https://scottastone.github.io on every push to `main`, but every page there just forwards to the same path on scottstone.ca (`scripts/make-redirects.mjs`). Requires repo Settings > Pages > Source: **GitHub Actions**.
 
 ## Alternative: Cloudflare Pages (no server)
 

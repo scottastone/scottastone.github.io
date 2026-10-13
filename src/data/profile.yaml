@@ -1,0 +1,70 @@
+# Everything on the homepage that isn't a publication or a post lives here.
+# Edit, commit, push: the site rebuilds itself.
+
+name: Scott Stone
+# Shown after your name in the headline. Leave empty to hide.
+credentials: PhD
+title: Data Engineer
+role: Covenant Health
+location: Edmonton, AB
+email: scott.allan.stone@gmail.com
+
+# One or two sentences under your name.
+tagline: >-
+  I build databases and data pipelines that help improve healthcare for Albertans.
+
+# Longer "About" paragraph(s). Plain text; a blank line starts a new paragraph.
+about: |-
+  I'm a data engineer at Covenant Health, where I design and build the databases that turn healthcare data into something clinicians, analysts and decision makers can rely on.
+
+  Before that I earned a PhD in psychology at the University of Alberta, studying human perception and decision making with eye tracking, motion capture and machine learning. That research background still shapes how I work: careful measurement, clean data, and models that hold up in the real world.
+
+# Current and past roles, newest first. "current: true" highlights it.
+experience:
+  - role: Data Engineer
+    org: Covenant Health
+    current: true
+  - role: Cofounder (former)
+    org: Reverb Robotics
+  - role: PhD Researcher, Psychology
+    org: University of Alberta
+
+links:
+  - label: GitHub
+    url: https://github.com/scottastone
+  - label: LinkedIn
+    url: https://linkedin.com/in/sa-stone
+
+# Files live in public/files/. Replace the PDF there to update it.
+documents:
+  - label: CV
+    url: /files/cv.pdf
+  - label: Resume
+    url: /files/resume.pdf
+
+# "What I do" cards on the homepage.
+focus:
+  - title: Healthcare data
+    text: Building the databases behind better care at Covenant Health, so the right data reaches the people who need it.
+  - title: Data engineering
+    text: Designing schemas, pipelines and models that are reliable, documented and easy to query.
+  - title: Analytics & machine learning
+    text: Turning clean data into insight, from statistical analysis to machine learning models.
+  - title: Research background
+    text: A PhD's worth of experiments in perception and decision making, using eye tracking and motion capture.
+
+skills:
+  - category: Languages
+    items: [Python, SQL, MATLAB, C++, Arduino]
+  - category: Data
+    items: [Databases, Data pipelines, Data modelling, Data science, Machine learning]
+  - category: Research
+    items: [Eye tracking, Motion capture, Reinforcement learning, Cognitive neuroscience, HCI]
+
+education:
+  - degree: PhD, Psychology
+    school: University of Alberta
+  - degree: MSc, Neuroscience
+    school: University of Lethbridge
+  - degree: BSc, Neuroscience
+    school: University of Lethbridge

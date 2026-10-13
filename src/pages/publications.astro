@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro";
+import PubList from "../components/PubList.astro";
+import { getPublications } from "../lib/data";
+
+const pubs = await getPublications();
+const years = [...new Set(pubs.map((p) => p.data.year))];
+---
+
+<Base title="Publications" description="Peer-reviewed papers and preprints by Scott Stone.">
+  <header class="page-head">
+    <h1>Publications</h1>
+    <p class="muted">{pubs.length} papers from my research on perception, action, eye tracking and machine learning.</p>
+  </header>
+  {years.map((y) => (
+    <section class="year-group">
+      <h2 class="year">{y}</h2>
+      <PubList pubs={pubs.filter((p) => p.data.year === y)} showYear={false} />
+    </section>
+  ))}
+</Base>

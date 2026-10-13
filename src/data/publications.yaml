@@ -1,0 +1,70 @@
+# Newest first is not required; the site sorts by year.
+# Fields: id (unique, no spaces), title, year, venue, url.
+# Optional: authors, tags (list), featured (true shows it on the homepage), pdf (/files/...).
+
+- id: rl-perceptual-decisions-2026
+  title: Primate-like perceptual decision making emerges through deep recurrent reinforcement learning
+  year: 2026
+  venue: arXiv
+  url: https://arxiv.org/abs/2601.12577
+  tags: [Reinforcement learning, Perception, Decision-making]
+  featured: true
+
+- id: ai-speech-neuropsych-2025
+  title: "AI-powered speech device as a tool for neuropsychological assessment of an older adult population: A preliminary study"
+  year: 2025
+  venue: Acta Psychologica
+  url: https://doi.org/10.1016/j.actpsy.2025.105084
+  tags: [Neuropsychology, AI, Speech]
+  featured: true
+
+- id: unconscious-frustration-2023
+  title: "Unconscious frustration: dynamically assessing user experience using eye and mouse tracking"
+  year: 2023
+  venue: Proc. ACM Hum.-Comput. Interact.
+  url: https://doi.org/10.1145/3591137
+  tags: [Eye tracking, Mouse tracking, UX]
+  featured: true
+
+- id: 3d-gaze-vectors-2022
+  title: Generating accurate 3D gaze vectors using synchronized eye tracking and motion capture
+  year: 2022
+  venue: Behavior Research Methods
+  url: https://doi.org/10.3758/s13428-022-01958-6
+  tags: [Eye tracking, Motion capture]
+  featured: true
+
+- id: sub-cm-gaze-2021
+  title: "Sub-centimeter 3D gaze vector accuracy on real-world tasks: an investigation of eye and motion capture calibration routines"
+  year: 2021
+  venue: ACM ETRA
+  url: https://doi.org/10.1145/3450341.3458880
+  tags: [Eye tracking, Motion capture, Calibration]
+
+- id: known-unknowns-2021
+  title: "Reaching for known unknowns: Rapid reach decisions accurately reflect the future state of dynamic probabilistic information"
+  year: 2021
+  venue: Cortex
+  url: https://doi.org/10.1016/j.cortex.2021.02.010
+  tags: [Reaching, Decision-making, Motor control]
+
+- id: visual-field-advantage-2019
+  title: "Visual field advantage: Redefined by training?"
+  year: 2019
+  venue: Frontiers in Psychology
+  url: https://doi.org/10.3389/fpsyg.2018.02764
+  tags: [Eye tracking, Grasping, Psychophysics]
+
+- id: situated-cognition-2018
+  title: Examining the 'species' of situated cognition in humans
+  year: 2018
+  venue: Comp. Cognition & Behavior Reviews
+  url: https://doi.org/10.3819/ccbr.2017.120003
+  tags: [Situated cognition, Theory]
+
+- id: auditory-ar-2017
+  title: "Rendering visual events as sounds: Spatial attention capture by auditory augmented reality"
+  year: 2017
+  venue: PLOS ONE
+  url: https://doi.org/10.1371/journal.pone.0182635
+  tags: [Auditory AR, Spatial attention]

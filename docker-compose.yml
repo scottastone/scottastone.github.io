@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Cloudflare Origin Certificate (origin.pem + origin.key), same as the old site
+      - ./certs:/certs:ro
+    restart: unless-stopped

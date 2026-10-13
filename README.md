@@ -48,7 +48,19 @@ docker compose up -d --build
 
 Roll back with `docker compose down` here and `docker compose up -d` in the old folder.
 
-Updating later: push to `main`. `.github/workflows/deploy.yml` SSHes in and runs `git pull && docker compose up -d --build` (same secrets as before; point `SERVER_PATH` at the new folder). Or run those two commands on the server yourself.
+### Automatic updates
+
+Run the site from a clone of this repo on the server, then let cron check GitHub every 2 minutes and rebuild when `main` changes (no secrets or open ports needed):
+
+```sh
+crontab -e
+# add this line (adjust the path):
+*/2 * * * * $HOME/scottstone-repo/scripts/auto-update.sh >> /tmp/site-update.log 2>&1
+```
+
+`tail /tmp/site-update.log` shows each update. The script only fast-forwards, so it stops rather than overwrite edits made directly on the server.
+
+Alternative: `.github/workflows/deploy.yml` can push updates over SSH instead, once the `SERVER_HOST`, `SERVER_USER`, `SERVER_SSH_KEY` and `SERVER_PATH` repo secrets are set.
 
 Caching: `/_astro/*` files have content hashes in their names and are cached for a year; everything else (pages, PDFs, images) is revalidated on each visit, so edits show up immediately.
 

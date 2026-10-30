@@ -5,6 +5,17 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      # Cloudflare Origin Certificate (origin.pem + origin.key), same as the old site
+      # Cloudflare Origin Certificates, not committed:
+      #   certs/origin.pem + origin.key                           scottstone.ca (same as the old site)
+      #   certs/pottedpainter/origin.pem + origin.key             pottedpainter.ca
       - ./certs:/certs:ro
+    networks:
+      - default
+      - web
     restart: unless-stopped
+
+networks:
+  # Shared with other sites on this server (e.g. the heineart container behind
+  # pottedpainter.ca), so nginx can proxy to them by container name.
+  web:
+    name: web

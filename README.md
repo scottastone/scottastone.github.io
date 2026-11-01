@@ -26,27 +26,12 @@ npm run build    # outputs static site to dist/
 
 ## Deploying to your own server (Docker)
 
-The site builds into plain HTML and is served by a single nginx container, using the same Cloudflare Origin Certificate as the old Django site (`certs/origin.pem` and `certs/origin.key`, not committed).
-
-First time, replacing the old Django site:
+The site builds into plain HTML served by a small nginx container named `scottstone`, over plain HTTP. It sits behind the server's shared reverse proxy in `~/docker/websites/proxy`, which owns ports 80/443 and the Cloudflare Origin Certificates and reaches this container over the `web` Docker network. That network is created once with `docker network create web`.
 
 ```sh
-# 1. Save the old blog posts before shutting anything down
-cd ~/old-site                                   # wherever the Django docker-compose.yml lives
-docker compose cp web:/data/db.sqlite3 ./old.sqlite3
-
-# 2. Get this site onto the server and give it the certs
-git clone <this repo> ~/scottstone-site         # or unzip it there
-cp -r ~/old-site/certs ~/scottstone-site/
-cd ~/scottstone-site
-python3 scripts/export_django_posts.py ~/old-site/old.sqlite3   # then commit src/content/writing/
-
-# 3. Swap: stop the old stack (frees ports 80/443; its data volume is kept), start the new one
-(cd ~/old-site && docker compose down)
-docker compose up -d --build
+git clone https://github.com/scottastone/scottastone.github.io ~/docker/websites/scottstone.ca
+cd ~/docker/websites/scottstone.ca && docker compose up -d --build
 ```
-
-Roll back with `docker compose down` here and `docker compose up -d` in the old folder.
 
 ### Automatic updates
 
@@ -59,10 +44,6 @@ crontab -e
 ```
 
 `tail /tmp/site-update.log` shows each update. The script only fast-forwards, so it stops rather than overwrite edits made directly on the server.
-
-### Other sites behind this nginx
-
-This nginx also fronts [pottedpainter.ca](https://github.com/scottastone/heineart.ca): `nginx/default.conf` proxies it to the `heineart` container over the shared `web` Docker network that this compose file creates. Its Cloudflare Origin Certificate goes in `certs/pottedpainter/origin.pem` and `origin.key`. If that certificate is missing, only pottedpainter.ca fails; scottstone.ca keeps working.
 
 Alternative: `.github/workflows/deploy.yml` can push updates over SSH instead, once the `SERVER_HOST`, `SERVER_USER`, `SERVER_SSH_KEY` and `SERVER_PATH` repo secrets are set.
 

@@ -8,6 +8,7 @@ services:
       # Cloudflare Origin Certificates, not committed:
       #   certs/origin.pem + origin.key                           scottstone.ca (same as the old site)
       #   certs/pottedpainter/origin.pem + origin.key             pottedpainter.ca
+      #   certs/heineart/origin.pem + origin.key                  heineart.ca
       - ./certs:/certs:ro
     networks:
       - default

@@ -60,6 +60,10 @@ crontab -e
 
 `tail /tmp/site-update.log` shows each update. The script only fast-forwards, so it stops rather than overwrite edits made directly on the server.
 
+### Other sites behind this nginx
+
+This nginx also fronts [pottedpainter.ca](https://github.com/scottastone/heineart.ca): `nginx/default.conf` proxies it to the `heineart` container over the shared `web` Docker network that this compose file creates. Its Cloudflare Origin Certificate goes in `certs/pottedpainter/origin.pem` and `origin.key`. If that certificate is missing, only pottedpainter.ca fails; scottstone.ca keeps working.
+
 Alternative: `.github/workflows/deploy.yml` can push updates over SSH instead, once the `SERVER_HOST`, `SERVER_USER`, `SERVER_SSH_KEY` and `SERVER_PATH` repo secrets are set.
 
 Caching: `/_astro/*` files have content hashes in their names and are cached for a year; everything else (pages, PDFs, images) is revalidated on each visit, so edits show up immediately.

@@ -1,8 +1,13 @@
-name: Deploy redirects to GitHub Pages
+# Builds the site on every push to main and on every pull request, so a broken
+# edit shows up as a red X on the commit (and GitHub emails you) before you
+# wonder why the live site didn't change. On main it also publishes
+# scottastone.github.io, which just forwards to scottstone.ca.
+name: Build site
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -11,11 +16,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
+    name: Build site
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,14 +30,19 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - name: Build (if this fails, the error names the file to fix)
+        run: npm run build
       # scottstone.ca is the real site; github.io just forwards there
-      - run: node scripts/make-redirects.mjs dist
-      - uses: actions/upload-pages-artifact@v3
+      - if: github.event_name != 'pull_request'
+        run: node scripts/make-redirects.mjs dist
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
   deploy:
+    name: Update github.io redirect
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:

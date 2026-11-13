@@ -1,5 +1,8 @@
-# Everything on the homepage that isn't a publication or a post lives here.
-# Edit, commit, push: the site rebuilds itself.
+# Everything about you: the homepage text, links, experience and education.
+# Page headings and other site wording are in site.yaml; papers in publications.yaml.
+# Edit and commit to main: the live site updates within a few minutes.
+# A list section you don't want (focus, skills, ...) can be deleted and its
+# heading disappears with it.
 
 name: Scott Stone
 # Shown after your name in the headline. Leave empty to hide.

@@ -1,0 +1,31 @@
+# Wording and settings for the site's pages (everything that isn't about you,
+# a publication or a post). Edit, commit to main, and the site rebuilds itself.
+
+# Homepage
+home:
+  # How many featured publications and recent posts to show.
+  # Mark publications with "featured: true" in publications.yaml to pick them.
+  publications_shown: 4
+  posts_shown: 3
+  # Section headings, top to bottom.
+  headings:
+    about: About
+    focus: What I do
+    publications: Research publications
+    writing: Writing
+    background: Background
+  contact_button: Get in touch
+
+# Publications page
+publications:
+  title: Publications
+  # Shown under the heading. {count} is replaced with the number of papers.
+  intro: "{count} papers from my research on perception, action, eye tracking and machine learning."
+  description: Peer-reviewed papers and preprints by Scott Stone.
+
+# Writing page
+writing:
+  title: Writing
+  intro: Notes on research, tools and things I'm building.
+  description: Notes and essays by Scott Stone.
+  empty: Nothing published yet.

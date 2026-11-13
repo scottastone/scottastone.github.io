@@ -1,6 +1,13 @@
-# Newest first is not required; the site sorts by year.
-# Fields: id (unique, no spaces), title, year, venue, url.
-# Optional: authors, tags (list), featured (true shows it on the homepage), pdf (/files/...).
+# One entry per paper. Order doesn't matter: the site sorts by year.
+# To add one, copy an existing entry (from its "- id:" line down to the blank
+# line), paste it, and change the details.
+#
+# Needed:   title, year, venue
+# Optional: url, authors, tags (a list in [square brackets]),
+#           featured (true shows it on the homepage), pdf (/files/your-file.pdf)
+#           id (any unique word; made from the title if you leave it out)
+#
+# Tip: if a title contains a colon (:), wrap the whole title in "double quotes".
 
 - id: rl-perceptual-decisions-2026
   title: Primate-like perceptual decision making emerges through deep recurrent reinforcement learning

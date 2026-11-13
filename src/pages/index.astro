@@ -2,23 +2,24 @@
 import Base from "../layouts/Base.astro";
 import PubList from "../components/PubList.astro";
 import PostList from "../components/PostList.astro";
-import { profile, getPublications, getPosts } from "../lib/data";
+import { profile, site, getPublications, getPosts } from "../lib/data";
 
 const pubs = await getPublications();
 const featured = pubs.filter((p) => p.data.featured);
-const selected = (featured.length ? featured : pubs).slice(0, 4);
-const posts = (await getPosts()).slice(0, 3);
+const selected = (featured.length ? featured : pubs).slice(0, site.home.publications_shown);
+const posts = (await getPosts()).slice(0, site.home.posts_shown);
+const h = site.home.headings;
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: profile.name,
-  honorificSuffix: profile.credentials,
+  honorificSuffix: profile.credentials ?? undefined,
   jobTitle: profile.title,
   worksFor: profile.role ? { "@type": "Organization", name: profile.role } : undefined,
   email: `mailto:${profile.email}`,
   url: Astro.site?.href,
-  address: profile.location,
+  address: profile.location ?? undefined,
   sameAs: profile.links.map((l) => l.url),
   alumniOf: [...new Set(profile.education.map((e) => e.school))],
 };
@@ -28,14 +29,14 @@ const jsonLd = {
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
 
   <section class="hero">
-    <p class="eyebrow">{profile.location}</p>
+    {profile.location && <p class="eyebrow">{profile.location}</p>}
     <h1>{profile.name}{profile.credentials && <span class="cred">, {profile.credentials}</span>}</h1>
     <p class="hero-role">
       {profile.title}{profile.role && <> at <strong>{profile.role}</strong></>}
     </p>
     <p class="hero-tagline">{profile.tagline}</p>
     <div class="actions">
-      <a class="btn btn-primary" href={`mailto:${profile.email}`}>Get in touch</a>
+      <a class="btn btn-primary" href={`mailto:${profile.email}`}>{site.home.contact_button}</a>
       {profile.documents.map((d) => <a class="btn" href={d.url} target="_blank" rel="noopener">{d.label}</a>)}
       {profile.links.map((l) => <a class="btn btn-ghost" href={l.url} target="_blank" rel="me noopener">{l.label} ↗</a>)}
     </div>
@@ -43,15 +44,16 @@ const jsonLd = {
 
   {profile.about && (
     <section class="section">
-      <h2 class="section-label">About</h2>
+      <h2 class="section-label">{h.about}</h2>
       <div class="prose about">
         {profile.about.split(/\n\s*\n/).map((para) => <p>{para}</p>)}
       </div>
     </section>
   )}
 
+  {profile.focus.length > 0 && (
   <section class="section">
-    <h2 class="section-label">What I do</h2>
+    <h2 class="section-label">{h.focus}</h2>
     <div class="focus-grid">
       {profile.focus.map((f) => (
         <article class="card">
@@ -61,19 +63,22 @@ const jsonLd = {
       ))}
     </div>
   </section>
+  )}
 
+  {selected.length > 0 && (
   <section class="section">
     <div class="section-head">
-      <h2 class="section-label">Research publications</h2>
+      <h2 class="section-label">{h.publications}</h2>
       <a class="more" href="/publications/">All {pubs.length} →</a>
     </div>
     <PubList pubs={selected} />
   </section>
+  )}
 
   {posts.length > 0 && (
     <section class="section">
       <div class="section-head">
-        <h2 class="section-label">Writing</h2>
+        <h2 class="section-label">{h.writing}</h2>
         <a class="more" href="/writing/">All posts →</a>
       </div>
       <PostList posts={posts} />
@@ -81,9 +86,9 @@ const jsonLd = {
   )}
 
   <section class="section">
-    <h2 class="section-label">Background</h2>
+    <h2 class="section-label">{h.background}</h2>
     <div class="bg-grid">
-      {profile.experience && (
+      {profile.experience.length > 0 && (
         <div>
           <h3 class="mini">Experience</h3>
           <ul class="edu">
@@ -93,6 +98,7 @@ const jsonLd = {
           </ul>
         </div>
       )}
+      {profile.education.length > 0 && (
       <div>
         <h3 class="mini">Education</h3>
         <ul class="edu">
@@ -101,6 +107,7 @@ const jsonLd = {
           ))}
         </ul>
       </div>
+      )}
       {profile.skills.map((s) => (
         <div>
           <h3 class="mini">{s.category}</h3>

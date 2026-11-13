@@ -1,18 +1,45 @@
 # scottstone.ca
 
-Personal site, built with [Astro](https://astro.build) as a static site. No server, database or Docker.
+Personal site, built with [Astro](https://astro.build) as a static site and served from Scott's own server in an nginx Docker container.
 
-## Updating content
+## Editing the site
+
+Everything you'd normally change is a plain text file. Edit it on GitHub (open the file, click the pencil, then **Commit changes** to `main`). The server checks GitHub every 2 minutes and rebuilds, so the live site updates a few minutes after you commit.
+
+For bigger edits across several files, press `.` on the repo page to open the same files in a full editor in your browser (github.dev).
 
 | To change | Edit |
 | --- | --- |
-| Name, tagline, about, research areas, skills, education, links | `src/data/profile.yaml` |
-| Publications | `src/data/publications.yaml` (add an entry; `featured: true` puts it on the homepage) |
-| CV / resume | replace `public/files/cv.pdf` or `public/files/resume.pdf` |
-| Blog posts | add a Markdown file to `src/content/writing/` (start from `templates/post.md`) |
+| Your name, headline, about text, links, experience, skills, education | `src/data/profile.yaml` |
+| Page headings, the publications/writing page intros, how many papers and posts the homepage shows | `src/data/site.yaml` |
+| Publications | `src/data/publications.yaml` (copy an entry; `featured: true` puts it on the homepage) |
+| CV / resume | upload a new `public/files/cv.pdf` or `public/files/resume.pdf` over the old one |
+| Blog posts | add a Markdown file to `src/content/writing/` (copy `_template.md` there) |
 | Colours, fonts, spacing | `src/styles/global.css` (tokens at the top) |
 
-Commit and push to `main`; Cloudflare Pages rebuilds and deploys automatically. You can also edit these files straight in GitHub's web editor.
+### Writing a post
+
+1. In `src/content/writing/`, choose **Add file > Create new file**.
+2. Name it `my-post-title.md`. The name becomes the address: `scottstone.ca/writing/my-post-title/`.
+3. Paste in `_template.md`, fill in the title, description and date, and write.
+4. Keep `draft: true` while working on it; delete that line to publish.
+
+For pictures, use **Add file > Upload files** in the same folder, then write `![description](./picture.jpg)` in the post. Images are resized and compressed for you.
+
+### If an edit doesn't show up
+
+Look at the commit on GitHub. A red X next to it means that edit broke the build (GitHub also emails you). The live site keeps showing the last working version, so nothing is broken for visitors. Click the red X, then **Details**: the error names the file and the field, for example
+
+```
+src/data/profile.yaml has a problem:
+  - focus.0.title: Invalid input: expected string, received undefined
+```
+
+Fix the file and commit again. The usual YAML slip-ups:
+
+- Text containing a colon followed by a space (`Title: subtitle`) needs "double quotes" around it.
+- Indentation is spaces, and items in the same list must line up.
+- Lists in square brackets need the closing `]`.
 
 ## Running locally
 
@@ -64,13 +91,11 @@ crontab -e
 
 This nginx also fronts [pottedpainter.ca](https://github.com/scottastone/heineart.ca): `nginx/default.conf` proxies it to the `heineart` container over the shared `web` Docker network that this compose file creates. Its Cloudflare Origin Certificate goes in `certs/pottedpainter/origin.pem` and `origin.key`. If that certificate is missing, only pottedpainter.ca fails; scottstone.ca keeps working.
 
-Alternative: `.github/workflows/deploy.yml` can push updates over SSH instead, once the `SERVER_HOST`, `SERVER_USER`, `SERVER_SSH_KEY` and `SERVER_PATH` repo secrets are set.
-
 Caching: `/_astro/*` files have content hashes in their names and are cached for a year; everything else (pages, PDFs, images) is revalidated on each visit, so edits show up immediately.
 
-## GitHub Pages (redirect)
+## Build check and GitHub Pages (redirect)
 
-`.github/workflows/pages.yml` publishes https://scottastone.github.io on every push to `main`, but every page there just forwards to the same path on scottstone.ca (`scripts/make-redirects.mjs`). Requires repo Settings > Pages > Source: **GitHub Actions**.
+`.github/workflows/pages.yml` builds the site on every push to `main` and every pull request, which is what produces the green tick or red X on each commit. On `main` it also publishes https://scottastone.github.io, where every page just forwards to the same path on scottstone.ca (`scripts/make-redirects.mjs`). Requires repo Settings > Pages > Source: **GitHub Actions**.
 
 ## Alternative: Cloudflare Pages (no server)
 
